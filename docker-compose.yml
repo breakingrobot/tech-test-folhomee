@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  back:
+    image: node:12
+    working_dir: /home/node/app
+    environment:
+      CHOKIDAR_USEPOLLING: 1
+      NODE_ENV: ${ENV}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: database
+      PORT: ${API_PORT}
+    volumes:
+      - ./back:/usr/app
+    ports:
+      - ${API_PORT}
+    command: bash -c "cd /usr/app && yarn && yarn start"
+    labels:
+      - traefik.enable=true
+      - traefik.port=${API_PORT}
+      - traefik.http.routers.back.rule=Host(`api.${DOMAIN}`)
+      - traefik.http.routers.back.entrypoints=web
+
+  front:
+    image: node:12
+    volumes:
+      - ./front:/usr/app/
+    ports:
+      - 3000
+    environment:
+      CHOKIDAR_USEPOLLING: 1
+      NODE_ENV: ${ENV}
+    command: bash -c "cd /usr/app && yarn && yarn dev"
+    labels:
+      - traefik.enable=true
+      - traefik.port=3000
+      - traefik.http.routers.front.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.front.entrypoints=web
+
+  database:
+    image: mysql:5.7
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOSTS: database,database_testing
+      VIRTUAL_HOST: pma.{$DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pma.rule=Host(`pma.${DOMAIN}`)
+      - traefik.http.routers.pma.entrypoints=web
+      - traefik.port=80
+
+  traefik:
+    image: traefik:2.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.traefik.address=:8080
+      - --api.dashboard=true
+      - --api.insecure=true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  dbdata:
