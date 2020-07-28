@@ -9,6 +9,7 @@
 *.iws
 out/
 .idea_modules/
+dbdata/
 *.iml
 modules.xml
 .idea/misc.xml
