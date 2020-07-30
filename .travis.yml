@@ -3,6 +3,9 @@ sudo: false
 node_js:
   - 12
   - 14
+branches:
+  only:
+    - master
 cache:
   yarn: true
   directories:
@@ -15,9 +18,9 @@ matrix:
   include:
     - node_js: 12
       before_script: cd ./back && yarn
-      script: yarn jest
+      script: yarn test --coverage
       env: CI=Jest Tests Node.js 12
     - node_js: 14
       before_script: cd ./back && yarn
-      script: yarn jest
+      script: yarn test --coverage
       env: CI=Back Jest Tests Node.js 12
