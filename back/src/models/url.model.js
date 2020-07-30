@@ -2,6 +2,12 @@ import Sequelize from 'sequelize'
 import HashID from '../utils/hashid'
 
 class Url extends Sequelize.Model {
+  /**
+   * Model initializer with complete schema.
+   * @param sequelize
+   * @param DataTypes
+   * @returns Sequelize.Model
+   */
   static init (sequelize, DataTypes) {
     return super.init(
       {
@@ -10,23 +16,34 @@ class Url extends Sequelize.Model {
           primaryKey: true,
           autoIncrement: true
         },
-        url: DataTypes.STRING,
+        url: {
+          type: DataTypes.STRING,
+          validate: {
+            isUrl: true
+          }
+        },
         redirectCount: {
           type: DataTypes.INTEGER,
           defaultValue: 0
         },
         hashCode: {
-          type: DataTypes.STRING,
-          set () {
-            this.setDataValue('hashCode', HashID.encode(this.id))
-          }
+          type: DataTypes.STRING
         }
       },
       {
         tableName: 'urls',
+        hooks: {
+          afterCreate: Url.afterCreate
+        },
         sequelize
       }
     )
+  }
+
+  static afterCreate (url) {
+    return url.update({
+      hashCode: HashID.encode(url.id)
+    })
   }
 }
 

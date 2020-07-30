@@ -1,19 +1,63 @@
 import Url from '../models/url.model'
+import { Op } from 'sequelize'
 
-const getUrl = async (query) => {
+/**
+ * Fetch all URLs and paginate it
+ * @param limit
+ * @param skip
+ * @returns {Promise<{rows: Url[]; count: number}>}
+ */
+const findAll = async ({ limit, skip }) => {
   try {
-    return await Url.findOne(query)
+    return await Url.findAndCountAll({ limit: limit, offset: skip })
   } catch (e) {
     throw Error('Error while fetching URL')
   }
 }
 
-const saveUrl = async (values) => {
+/**
+ * Find an URL by it primary key.
+ * @param {int} id
+ * @returns {Promise<Url>}
+ */
+const find = async (id) => {
   try {
-    return await Url.create(values)
+    return await Url.findOne({
+      where: {
+        id: {
+          [Op.eq]: id
+        }
+      }
+    })
   } catch (e) {
-    throw Error('Error while creating URL')
+    throw Error('Error while fetching URL')
   }
 }
 
-export default { getUrl, saveUrl }
+/**
+ * Find or Create an URL Entity based on its URL
+ * @param {string} sentUrl
+ * @returns {Promise<Url>}
+ */
+const findOrCreateByUrl = async ({ sentUrl }) => {
+  if (!sentUrl) {
+    throw new Error('Sent URL should not be null')
+  }
+  try {
+    const query = {
+      where: {
+        url: {
+          [Op.eq]: sentUrl
+        }
+      }
+    }
+    const existingUrl = await Url.findOne(query)
+    return existingUrl || await Url.create({
+      url: sentUrl
+    })
+  } catch (e) {
+    throw Error(e)
+  }
+}
+
+export default { findAll, find, findOrCreateByUrl }
