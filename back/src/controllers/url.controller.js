@@ -10,7 +10,7 @@ import UrlService from '../services/url.services'
  * @returns {Promise<*|Json>}
  */
 const indexUrl = async (req, res, next) => {
-  const { limit, skip, page } = req.query
+  const { skip, query: { limit, page } } = req
   try {
     const url = await UrlService.findAll({
       limit: limit,
@@ -19,8 +19,10 @@ const indexUrl = async (req, res, next) => {
     const urlCount = url.count
     const pageCount = Math.ceil(urlCount / limit)
     const metadata = {
+      limit,
       pageCount,
       urlCount,
+      page,
       pages: paginate.getArrayPages(req)(3, pageCount, page)
     }
     return res.status(200).json({ status: 200, data: { url: url.rows }, metadata: metadata })
@@ -61,7 +63,7 @@ const saveUrl = async (req, res, next) => {
       ...hashedUrl,
       hash: HashID.encode(hashedUrl.id)
     }
-    return res.status(200).json({ status: 200, data: data })
+    return res.status(200).json({ status: 200, data: { url: data.dataValues } })
   } catch (e) {
     return res.status(400).json({ status: 400, message: e.message })
   }

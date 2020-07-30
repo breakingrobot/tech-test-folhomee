@@ -51,10 +51,7 @@ const findOrCreateByUrl = async ({ sentUrl }) => {
         }
       }
     }
-    const existingUrl = await Url.findOne(query)
-    return existingUrl || await Url.create({
-      url: sentUrl
-    })
+    return await Url.findOne(query) || await Url.create({ url: sentUrl })
   } catch (e) {
     throw Error(e)
   }
