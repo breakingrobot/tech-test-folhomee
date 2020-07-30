@@ -14,13 +14,17 @@ before_install:
 matrix:
   include:
     - node_js: 12
-      before_script: cd ./back && yarn
+      before_script:
+        - yarn global add codecov
+        - cd ./back && yarn
       script:
         - yarn test --coverage
         - codecov
       env: CI=Jest Tests Node.js 12
     - node_js: 14
-      before_script: cd ./back && yarn
+      before_script:
+        - yarn global add codecov
+        - cd ./back && yarn
       script:
         - yarn test --coverage
         - codecov
