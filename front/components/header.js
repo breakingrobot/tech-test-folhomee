@@ -1,10 +1,11 @@
+import React from 'react'
 import Link from 'next/link'
 import { Header as GrommetHeader, Heading, Button, Box, ResponsiveContext } from 'grommet'
 
-export function Header() {
-  const size = React.useContext(ResponsiveContext);
+export function Header () {
+  const size = React.useContext(ResponsiveContext)
   return (
-    <GrommetHeader size="small" background="brand-secondary" pad={{horizontal: 'medium'}} gap="xxsmall" direction="row-responsive">
+    <GrommetHeader size="small" background="brand-secondary" pad={{ horizontal: 'medium' }} gap="xxsmall" direction="row-responsive">
       <Box align="center" direction="row-responsive" gap="medium" alignSelf={size !== 'small' ? 'start' : 'center'}>
         <Heading level={4} alignSelf="center">
           URL Shortener

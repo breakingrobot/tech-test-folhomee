@@ -25,7 +25,7 @@ const indexUrl = async (req, res, next) => {
       page,
       pages: paginate.getArrayPages(req)(3, pageCount, page)
     }
-    return res.status(200).json({ status: 200, data: { url: url.rows }, metadata: metadata })
+    return res.redirect(url.url)
   } catch (e) {
     return res.status(400).json({ status: 400, message: e.message })
   }

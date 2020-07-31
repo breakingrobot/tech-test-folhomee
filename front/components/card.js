@@ -1,19 +1,18 @@
-import {Box} from 'grommet'
+import { Box } from 'grommet'
 import PropTypes from 'prop-types'
 
-export function Card({children, boxProps}) {
+export function Card ({ children, boxProps }) {
   return (
     <Box
       align="center"
       pad="medium"
-      background="brand"
       round="small"
       elevation="xsmall"
       alignSelf="center"
       margin="small"
       flex={false}
       fill="horizontal"
-      direction="row-responsive"
+      direction="column"
       gap="medium"
       {...boxProps}
     >
@@ -23,8 +22,8 @@ export function Card({children, boxProps}) {
 }
 
 Card.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.array,
   boxProps: PropTypes.object
-};
+}
 
 export default Card

@@ -33,7 +33,7 @@ services:
     environment:
       CHOKIDAR_USEPOLLING: 1
       NODE_ENV: ${ENV}
-      API_URL: http://api.${DOMAIN}
+      NEXT_PUBLIC_API_URL: http://api.${DOMAIN}
     command: bash -c "cd /usr/app && yarn && yarn dev"
     labels:
       - traefik.enable=true
