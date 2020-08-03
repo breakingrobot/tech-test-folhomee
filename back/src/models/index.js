@@ -4,12 +4,11 @@ import config from '../config'
 
 const createDb = () => {
   const { database, user, password, host, port } = config.database
-  console.log(process.env)
-  console.log(config.database)
   return new Sequelize(database, user, password, {
     host: host,
     port: port,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    charset: 'utf8mb4'
   })
 }
 

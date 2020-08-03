@@ -15,7 +15,7 @@ app.use(cookieParser())
 app.use(cors())
 app.use(paginate.middleware(10, 50))
 
-db.sequelize.sync()
+db.sequelize.sync({ force: true })
 
 app.use('/url', urlRouter)
 

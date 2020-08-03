@@ -25,7 +25,7 @@ const indexUrl = async (req, res, next) => {
       page,
       pages: paginate.getArrayPages(req)(3, pageCount, page)
     }
-    return res.redirect(url.url)
+    return res.status(200).json({ status: 200, data: { url: url.rows }, metadata: metadata })
   } catch (e) {
     return res.status(400).json({ status: 400, message: e.message })
   }
@@ -39,10 +39,11 @@ const indexUrl = async (req, res, next) => {
  * @returns {Promise<*|Json>}
  */
 const getUrl = async (req, res, next) => {
-  const { hash } = req
+  const { hash } = req.params
   try {
     const url = await UrlService.find(HashID.decode(hash))
-    return res.status(200).json({ status: 200, data: { url: url } })
+    const formattedUrl = !/^https?:\/\//i.test(url.url) ? `http://${url.url}` : url.url
+    return res.redirect(formattedUrl)
   } catch (e) {
     return res.status(400).json({ status: 400, message: e.message })
   }
