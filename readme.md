@@ -43,3 +43,53 @@ docker-compose exec back bash
 cd /usr/app/
 yarn test
 ```
+
+### Détails des exercices
+
+#### Mise en place de l'architecture
+Une heure aura été dédié à la mise en place de l'architecture :
+- Création de l'application Express (5 minutes)
+- Ajout de Babel et de Nodemon sur Express (10 minutes)
+- Ajout de Sequelize (10 minutes)
+- Ajout des tests sur Express (5 minutes)
+- Mise en place de Next.js avec Styled Component / Grommet (10 minutes)
+- Mise en place du Docker-Compose et des environnements (20 minutes)
+
+#### Exercice 1
+La réalisation du premier exercice aura pris deux heures :
+- Documentation sur les algos possibles (1 heure)
+- Réalisation de l'algorithme (Knuth Multiplicative Hash + Base 36):
+    - Knuth (25 minutes avec la librairie Long.js)
+    - Base36 (5 minutes)
+- Réalisation des tests Jest (30 minutes)
+
+### Exercice 2
+La réalisation du second exercice aura pris 1h20 :
+- Création des différentes routes (10 minutes)
+- Ajout d'un système de configuration (5 minutes)
+- Intégration de Sequelize dans l'application Express (10 minutes)
+- Création du modèle avec système de setter pour le hash de l'URL (10 minutes)
+- Création du Service URL avec utilisation du modèle (findAll, find, findOrCreate - 10 minutes)
+- Création du controller des URL avec GET/POST, liste, fetch et création d'URL (20 minutes)
+- Ajout d'un middleware de pagination, intégration avec les controllers/models Sequelize (10 minutes)
+- Ajout d'un middleware de CORS (5 minutes)
+
+### Exercice 3
+La réalisation du troisième aura requis 3h :
+
+**La création des composants suivant :**
+- Création d'un composant Header (10 minutes)
+- Création d'un composant de Card (10 minutes)
+- Création d'un composant Styled-Component de Formulaire (5 minutes)
+- Ajout d'un composant de Spinner de chargement (5 minutes)
+
+**La création des scènes suivantes**
+- Création d'une scène de formulaire pour raccourcir une URL (1 heure)
+- Création d'une scène de liste pour afficher les différentes URL raccourcies de manière paginé (45 minutes)
+
+Mais aussi :
+- Création de la page Index qui regroupe Header/Formulaire d'URL/Liste d'URL (5 minutes)
+- Création d'un fichier de configuration pour lier l'URL de l'API (5 minutes)
+- Création d'un fichier de ressources API (5 minutes)
+- Ajout d'un thème custom pour Grommet (10 minutes)
+- Mise en place d'ESLint (15 minutes)
